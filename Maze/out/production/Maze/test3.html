@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Vue 组件示例</title>
+    <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+</head>
+<body>
+<div id="app">
+    <a href="www.email.com"> 点击这里</a>
+    <a v-bind:href="sdad">try this on </a>>
+    <model1></model1>
+    <model1></model1>
+    <hr>
+    <model1></model1>
+
+</div>
+
+<script>
+    Vue.component("model1", {
+        template: "<div><h1>{{ title }}</h1><button type='button' v-on:click='btnfn'>点我</button></div>",
+        data: function() {
+            return {
+                title: "hello vue"
+            };
+        },
+        methods: {
+            btnfn: function() {
+                alert("hello !!!");
+            }
+        }
+    });
+
+    new Vue({
+        el: '#app',
+        data:{
+          hello:"https://chatgpt.com/c/10962b55-4a0b-44e9-822b-7f00acbfb4ca",
+          sdad:"https://www.bilibili.com/video/BV1PV411774y/?spm_id_from=333.337.search-card.all.click",
+        },
+        methods: {
+            btnfn: function() {
+                alert("man !!!");
+            }
+        }
+    });
+</script>
+</body>
+</html>

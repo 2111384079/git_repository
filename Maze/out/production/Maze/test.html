@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>电力巡检系统</title>
+    <!-- 引入 Vue.js -->
+    <script src="https://cdn.jsdelivr.net/npm/vue@2/dist/vue.js"></script>
+    <!-- 引入 Element-UI -->
+    <link rel="stylesheet" href="https://unpkg.com/element-ui/lib/theme-chalk/index.css">
+    <script src="https://unpkg.com/element-ui/lib/index.js"></script>
+    <style>
+        .el-header {
+            background-color: #f5f5f5;
+            padding: 20px;
+        }
+        .el-header h1 {
+            display: inline-block;
+            margin-right: 20px;
+        }
+        .el-header div {
+            display: inline-block;
+            vertical-align: top;
+        }
+        .el-header div span {
+            margin-right: 10px;
+        }
+        .el-header div button {
+            margin-left: 10px;
+        }
+        .el-main {
+            padding: 20px;
+        }
+        .el-tabs__nav-scroll {
+            margin-bottom: 20px;
+        }
+        .el-breadcrumb {
+            margin-bottom: 20px;
+        }
+    </style>
+</head>
+<body>
+<div id="app">
+    <el-container>
+        <el-header>
+            <h1>电力巡检系统</h1>
+            <div>
+                <span>2013年11月21日 周四 上午10:44</span>
+                <span>欢迎 admin</span>
+                <span>角色：系统管理员</span>
+                <el-button type="text">修改密码</el-button>
+                <el-button type="text">退出</el-button>
+            </div>
+        </el-header>
+
+        <el-main>
+            <el-tabs v-model="activeTab">
+                <el-tab-pane label="我的工作平台"></el-tab-pane>
+                <el-tab-pane label="系统管理" name="system-management">
+                    <el-breadcrumb separator=">>">
+                        <el-breadcrumb-item>系统管理</el-breadcrumb-item>
+                        <el-breadcrumb-item>角色管理</el-breadcrumb-item>
+                    </el-breadcrumb>
+
+                    <el-form :inline="true" :model="formInline" class="demo-form-inline">
+                        <el-form-item label="角色名称">
+                            <el-input v-model="roleName" placeholder="请输入角色名称"></el-input>
+                        </el-form-item>
+                        <el-form-item label="启用状态">
+                            <el-select v-model="status" placeholder="请选择">
+                                <el-option label="启用" value="enabled"></el-option>
+                                <el-option label="未启用" value="disabled"></el-option>
+                            </el-select>
+                        </el-form-item>
+                        <el-form-item>
+                            <el-button type="primary" @click="search">查询</el-button>
+                        </el-form-item>
+                    </el-form>
+
+                    <el-button type="primary" icon="el-icon-plus" @click="addRole">添加角色</el-button>
+
+                    <el-table :data="roles" style="width: 100%; margin-top: 20px;">
+                        <el-table-column prop="id" label="角色编号" width="180"></el-table-column>
+                        <el-table-column prop="name" label="角色名称" width="180"></el-table-column>
+                        <el-table-column prop="creator" label="创建人" width="180"></el-table-column>
+                        <el-table-column prop="updateTime" label="更新时间" width="180"></el-table-column>
+                        <el-table-column prop="status" label="状态（启用/未启用）" width="180">
+                            <template slot-scope="scope">
+                                <el-checkbox v-model="scope.row.status" disabled></el-checkbox>
+                            </template>
+                        </el-table-column>
+                        <el-table-column label="操作" width="180">
+                            <template slot-scope="scope">
+                                <el-button type="text" @click="editRole(scope.row)">修改</el-button>
+                                <el-button type="text" @click="deleteRole(scope.row)">删除</el-button>
+                            </template>
+                        </el-table-column>
+                    </el-table>
+
+                    <el-pagination
+                            background
+                            layout="prev, pager, next"
+                            :total="50"
+                            style="text-align: center; margin-top: 20px;">
+                    </el-pagination>
+                </el-tab-pane>
+                <el-tab-pane label="杆塔管理"></el-tab-pane>
+                <el-tab-pane label="线路管理"></el-tab-pane>
+                <el-tab-pane label="缺陷管理"></el-tab-pane>
+                <el-tab-pane label="巡检任务管理"></el-tab-pane>
+                <el-tab-pane label="消缺任务管理"></el-tab-pane>
+                <el-tab-pane label="信息统计"></el-tab-pane>
+            </el-tabs>
+        </el-main>
+    </el-container>
+</div>
+
+<script>
+    new Vue({
+        el: '#app',
+        data() {
+            return {
+                roles: [
+                    { id: 'ps_role01', name: '系统管理员', creator: 'admin', updateTime: '2013-12-16 15:44:30', status: true },
+                    { id: 'ps_role02', name: '线路管理员', creator: 'admin', updateTime: '2013-12-16 15:22:30', status: true },
+                    { id: 'ps_role03', name: '巡检员', creator: 'admin', updateTime: '2013-12-16 15:11:32', status: true },
+                    { id: 'ps_role04', name: '消缺员', creator: 'admin', updateTime: '2013-12-16 15:10:32', status: true }
+                ],
+                roleName: '',
+                status: '',
+                formInline: {
+                    roleName: '',
+                    status: ''
+                },
+                activeTab: 'system-management'
+            };
+        },
+        methods: {
+            search() {
+                console.log('Search clicked');
+            },
+            addRole() {
+                console.log('Add role clicked');
+            },
+            editRole(role) {
+                console.log('Edit role:', role);
+            },
+            deleteRole(role) {
+                console.log('Delete role:', role);
+            }
+        }
+    });
+</script>
+</body>
+</html>
